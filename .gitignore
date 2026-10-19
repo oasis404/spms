@@ -1,0 +1,39 @@
+# ===== 依赖与构建产物 =====
+node_modules/
+target/
+dist/
+build/
+*.class
+*.jar
+!.mvn/wrapper/maven-wrapper.jar
+
+# ===== 本地便携运行时（JDK17/MySQL/Redis，约 1.8G，不入库）=====
+runtime/
+run/
+logs/
+*.log
+maven_build.log
+
+# ===== 上游原始压缩包（内容已解压，避免重复占空间）=====
+*.tar.gz
+*.zip
+
+# ===== 本地验证产物与截图 =====
+_verify/
+
+# ===== 敏感/本地配置 =====
+.env
+.env.*
+application-secret.yml
+
+# ===== IDE =====
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+
+# ===== 操作系统 =====
+Thumbs.db
+Desktop.ini
+.DS_Store

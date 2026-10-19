@@ -1,0 +1,45 @@
+# ============================================================
+# 本地运行配置（免 Docker / 免安装 MySQL、Redis 服务）
+# 由本地便携版 MySQL 8 + Redis 提供数据服务
+# 启动时通过 spring.profiles.active=local 激活
+# ============================================================
+spring:
+  jpa:
+    show-sql: false
+    hibernate:
+      # 首次运行使用 update，由 JPA 依据实体自动建表；稳定后可改为 validate
+      ddl-auto: update
+  datasource:
+    url: "jdbc:mysql://127.0.0.1:3306/spms?allowPublicKeyRetrieval=true&serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&useSSL=false"
+    username: "spms"
+    password: "spms"
+  data:
+    redis:
+      host: "127.0.0.1"
+      port: 6379
+      database: 5
+      password: ""
+
+app:
+  # 开启开发者模式：首次启动会自动初始化权限、菜单、编码规则与默认账号
+  is-dev-mode: true
+  login-url: "http://127.0.0.1:5173/login"
+
+logging:
+  level:
+    org.springframework.beans: info
+    org.springframework.context: info
+
+# ---------------------------------------------------------------
+# 健康检查说明
+# 访问 http://127.0.0.1:8080/actuator/health 时，redis 子项会报 DOWN：
+# 原因是 Windows 版 Redis 5.0.14.1 与 Jedis 客户端的信息解析存在兼容问题
+# （日志：RedisSystemException: Cannot read Redis info），
+# 但 Redis 的实际读写完全正常（已通过 airpower:cookie_code_* 键验证）。
+# 如希望健康检查整体返回 UP，可取消下面两行注释后重启后端：
+#
+# management:
+#   health:
+#     redis:
+#       enabled: false
+# ---------------------------------------------------------------
